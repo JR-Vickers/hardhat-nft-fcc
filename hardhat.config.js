@@ -24,12 +24,12 @@ module.exports = {
             chainId: 31337,
             blockConfirmations: 1,
         },
-        rinkeby: {
-            chainId: 4,
-            blockConfirmations: 6,
-            url: RINKEBY_RPC_URL,
-            accounts: [PRIVATE_KEY],
-        },
+        // rinkeby: {
+        //     chainId: 4,
+        //     blockConfirmations: 6,
+        //     url: RINKEBY_RPC_URL,
+        //     accounts: [PRIVATE_KEY],
+        // },
         goerli: {
             chainId: 5,
             blockConfirmations: 6,
@@ -63,7 +63,16 @@ module.exports = {
             default: 1,
         },
     },
-    solidity: "0.8.7",
+    solidity: {
+        compilers: [
+            {
+                version: "0.8.7",
+            },
+            {
+                version: "0.6.6",
+            },
+        ],
+    },
     namedAccounts: {
         deployer: {
             default: 0,
