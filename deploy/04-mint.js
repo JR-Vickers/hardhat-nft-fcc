@@ -23,7 +23,10 @@ module.exports = async ({ getNamedAccounts }) => {
     // Random IPFS NFT
     const randomIpfsNft = await ethers.getContract("RandomIpfsNft", deployer)
     const mintFee = await randomIpfsNft.getMintFee()
-
+    const randomIpfsNftMintTx = await randomIpfsNft.requestNft({
+        value: mintFee.toString(),
+    })
+    const randomIpfsNftMintTxReceipt = await randomIpfsNftMintTx.wait(1)
     // Need to listen for response
     await new Promise(async (resolve, reject) => {
         setTimeout(resolve, 300000) // 5 minute timeout time
@@ -31,10 +34,6 @@ module.exports = async ({ getNamedAccounts }) => {
         randomIpfsNft.once("NftMinted", async () => {
             resolve()
         })
-        const randomIpfsNftMintTx = await randomIpfsNft.requestNft({
-            value: mintFee.toString(),
-        })
-        const randomIpfsNftMintTxReceipt = await randomIpfsNftMintTx.wait(1)
         if (developmentChains.includes(network.name)) {
             const requestId =
                 randomIpfsNftMintTxReceipt.events[1].args.requestId.toString()
